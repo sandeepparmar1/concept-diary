@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSH Concept Notes | Sandeep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheet/ssh-style.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">SS</div>
+        <div>
+          <h1>SSH Concept Notes</h1>
+          <div class="lead">Secure Shell protocol explained for interview and practice</div>
+        </div>
+      </div>
+
+    </header>
+
+    <main>
+      <nav class="toc">
+        <div class="card">
+          <strong>Contents</strong>
+          <div class="section"><a href="#what">What is SSH</a></div>
+          <div class="section"><a href="#handshake">Handshake Overview</a></div>
+          <div class="section"><a href="#open-ssh">OpenSSH</a></div>
+          <div class="section"><a href="#keys">Key Authentication</a></div>
+          <div class="section"><a href="#agent">ssh-agent</a></div>
+          <div class="section"><a href="#config">ssh_config</a></div>
+          <div class="section"><a href="#permissions">Permissions</a></div>
+          <div class="section"><a href="#troubleshoot">Troubleshooting</a></div>
+          <div class="section"><a href="#quickrecap">Quickrecap</a></div>
+        </div>
+      </nav>
+
+      <article>
+        <!-- sections remain the same -->
+
+
+        <article>
+          <section id="what">
+            <h2>What is SSH</h2>
+            <p class="muted">SSH stands for Secure Shell. It is a network protocol that creates an encrypted channel
+              between two machines so data stays private and tamper free.</p>
+            <div class="grid" style="margin-top:10px">
+              <div class="card">
+                <strong>Goals</strong>
+                <ul class="muted">
+                  <li>Confidentiality</li>
+                  <li>Integrity</li>
+                  <li>Authentication</li>
+                </ul>
+              </div>
+              <div class="card">
+                <strong>Use cases</strong>
+                <div class="muted">Remote shell access scp sftp port forwarding bastion host management</div>
+              </div>
+            </div>
+          </section>
+
+          <section id="handshake">
+            <h2>Handshake Overview</h2>
+            <ol class="handshake">
+              <li>Client opens TCP connection to server on port 22</li>
+              <li>Server sends host key. Client compares with <code>~/.ssh/known_hosts</code></li>
+              <li>Client and server negotiate encryption algorithms and establish encrypted channel</li>
+              <li>Client authenticates using allowed methods such as password or public key</li>
+            </ol>
+
+            <div class="diagram" aria-hidden>
+              <svg width="100%" height="120" viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="20" width="200" height="70" rx="10" fill="#0b1220" stroke="#3b82f6" stroke-width="2" />
+                <text x="120" y="55" fill="#cfe6ff" font-size="14" text-anchor="middle">SSH Client</text>
+                <rect x="580" y="20" width="200" height="70" rx="10" fill="#0b1220" stroke="#7c3aed" stroke-width="2" />
+                <text x="680" y="55" fill="#cfe6ff" font-size="14" text-anchor="middle">SSH Server</text>
+                <path d="M220 55 H580" stroke="#96a6ff" stroke-width="2" stroke-dasharray="6 6" />
+                <text x="400" y="40" fill="#9aa4b2" font-size="12" text-anchor="middle">Encrypted Channel / TCP
+                  22</text>
+              </svg>
+            </div>
+          </section>
+
+          <section id="open-ssh">
+            <h2>OpenSSH</h2>
+            <p class="muted">OpenSSH is the most common SSH implementation. It provides ssh scp sftp sshd and helper
+              tools and is maintained by the OpenBSD project.</p>
+          </section>
+
+          <section id="keys">
+            <h2>SSH Key Authentication</h2>
+            <p class="muted">Key based auth uses a public private key pair. Private key stays on client. Public key is
+              added to server <code>~/.ssh/authorized_keys</code>.</p>
+
+            <div class="card" style="margin-top:10px">
+              <strong>Generate a modern key</strong>
+              <div style="margin-top:8px" class="cmd">
+                <pre id="cmd1">ssh-keygen -t ed25519 -C "email@example.com"</pre>
+                <button class="copy" data-target="cmd1">Copy</button>
+              </div>
+              <div class="muted" style="margin-top:8px">Use ed25519 on modern systems. Use rsa only for legacy systems
+                and with a large bit size.</div>
+            </div>
+
+            <div class="card" style="margin-top:10px">
+              <strong>Copy public key to server</strong>
+              <div class="cmd">
+                <pre id="cmd2">ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server</pre><button class="copy"
+                  data-target="cmd2">Copy</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="agent">
+            <h2>ssh-agent and ssh-add</h2>
+            <p class="muted">ssh-agent stores unlocked keys in memory for the session so you do not have to reenter
+              passphrase repeatedly.</p>
+            <div class="card">
+              <div class="cmd">
+                <pre id="cmd3">eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</pre><button class="copy" data-target="cmd3">Copy</button>
+              </div>
+              <div class="muted" style="margin-top:8px">Do not forward agent to untrusted hosts. Agent forwarding can
+                expose keys to a compromised server.</div>
+            </div>
+          </section>
+
+          <section id="config">
+            <h2>SSH Config</h2>
+            <p class="muted">User level config is in <code>~/.ssh/config</code>. System config is
+              <code>/etc/ssh/ssh_config</code>. User config overrides system config.</p>
+            <div class="card">
+              <pre id="cmd4">Host myserver
+  HostName 192.0.2.10
+  User ubuntu
+  Port 22
+  IdentityFile ~/.ssh/id_ed25519
+  ProxyJump bastion.example.com</pre>
+              <button class="copy" data-target="cmd4">Copy</button>
+            </div>
+          </section>
+
+          <section id="permissions">
+            <h2>Permissions Checklist</h2>
+            <p class="muted">SSH requires strict permissions so private keys stay secret and the server can trust
+              authorized keys.</p>
+
+            <table class="perm-table" style="margin-top:10px">
+              <thead>
+                <tr>
+                  <th>File or Folder</th>
+                  <th>Mode</th>
+                  <th>Command</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>~/.ssh directory</td>
+                  <td>700</td>
+                  <td><code>chmod 700 ~/.ssh</code></td>
+                  <td>Owner only access</td>
+                </tr>
+                <tr>
+                  <td>Private key files</td>
+                  <td>600 or 400</td>
+                  <td><code>chmod 600 ~/.ssh/id_ed25519</code></td>
+                  <td>Strict owner only</td>
+                </tr>
+                <tr>
+                  <td>Public key files</td>
+                  <td>644</td>
+                  <td><code>chmod 644 ~/.ssh/id_ed25519.pub</code></td>
+                  <td>Readable by others</td>
+                </tr>
+                <tr>
+                  <td>authorized_keys</td>
+                  <td>600</td>
+                  <td><code>chmod 600 ~/.ssh/authorized_keys</code></td>
+                  <td>Server checks this file</td>
+                </tr>
+                <tr>
+                  <td>known_hosts</td>
+                  <td>644</td>
+                  <td><code>chmod 644 ~/.ssh/known_hosts</code></td>
+                  <td>Host keys</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top:10px" class="card">
+              <strong>Ownership and extra commands</strong>
+              <pre id="cmd5">chown -R $(whoami):$(whoami) ~/.ssh
+ls -la ~/.ssh
+umask 077</pre>
+              <button class="copy" data-target="cmd5">Copy</button>
+              <div class="muted" style="margin-top:8px">If permissions are too open sshd may refuse public key auth and
+                you may see Permission denied publickey or bad ownership errors.</div>
+            </div>
+
+          </section>
+
+          <section id="troubleshoot">
+            <h2>Troubleshooting</h2>
+            <ul class="muted">
+              <li>Debug ssh with verbose flags <code>ssh -v -i ~/.ssh/id_ed25519 user@host</code></li>
+              <li>Check sshd on server <code>systemctl status sshd</code></li>
+              <li>Watch server logs <code>sudo journalctl -u sshd -n 200</code></li>
+              <li>Look for permission errors and fix with chmod and chown</li>
+            </ul>
+          </section>
+
+
+          <section id="quickrecap">
+            <h2>Quick Recap</h2>
+            <div class="card">
+              <ul class="muted">
+                <li>SSH provides an encrypted remote shell over TCP port 22.</li>
+                <li>Authentication can be password or key based. Public key goes to
+                  <code>~/.ssh/authorized_keys</code>; private key stays on the client.
+                </li>
+                <li>Use <code>~/.ssh/config</code> to create Host aliases and simplify connections (supports
+                  ProxyJump).</li>
+                <li>Keep strict permissions: <code>chmod 700 ~/.ssh</code> and
+                  <code>chmod 600 ~/.ssh/id_ed25519</code>.
+                </li>
+                <li>Debug with <code>ssh -v</code> and check server status with
+                  <code>systemctl status sshd</code>.
+                </li>
+              </ul>
+            </div>
+          </section>
+        </article>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-target');
+        const el = document.getElementById(id);
+        const text = el.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.innerText = 'Copied';
+          setTimeout(() => btn.innerText = 'Copy', 900);
+        } catch (e) {
+          alert('Copy failed. Select and copy manually.')
+        }
+      })
+    });
+  </script>
+</body>
+
+</html>
