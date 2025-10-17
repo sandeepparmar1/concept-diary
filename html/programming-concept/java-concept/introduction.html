@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lexer & Parser — Java Concepts | Sandeep</title>
+
+  <link rel="stylesheet" href="../../../../stylesheet/java-introduction.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">J</div>
+      <div style="min-width:0">
+        <h1>Lexer & Parser — How Java source becomes a program</h1>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Overview</h2>
+        <p>Different programming languages have different syntax, but the internal pipeline that turns plain source text
+          into an executable program follows common stages. For Java (and many compiled languages) the front-end of the
+          compiler performs lexical analysis and parsing, producing an Abstract Syntax Tree (AST) consumed by later
+          phases.</p>
+      </section>
+
+      <div class="grid">
+        <div>
+          <section>
+            <h2>Lexeme & Token</h2>
+            <p><strong>Lexeme</strong> — the smallest meaningful character sequence in source code (a concrete
+              substring). Example: in <code>int x = 10;</code> the lexemes are <code>int</code>, <code>x</code>,
+              <code>=</code>, <code>10</code>, <code>;</code>.
+            </p>
+            <p><strong>Token</strong> — a classified category for a lexeme. The lexer converts lexemes into tokens, for
+              example: <code>int</code> → <code>KEYWORD</code>, <code>x</code> → <code>IDENTIFIER</code>,
+              <code>10</code> → <code>INTEGER_LITERAL</code>.
+            </p>
+          </section>
+
+          <section>
+            <h2>Lexer (Lexical Analysis)</h2>
+            <p>The <em>lexer</em> (tokenizer) reads raw source text, groups characters into lexemes and emits tokens. It
+              usually removes whitespace and comments. The lexer does <strong>not</strong> check higher-level grammar —
+              it only recognizes valid tokens.</p>
+
+            <div class="card" style="margin-top:12px">
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div>
+                  <div
+                    style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin-bottom:8px">
+                    Source</div>
+                  <pre>int x = 10;</pre>
+                </div>
+
+                <div>
+                  <div
+                    style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin-bottom:8px">
+                    Lexer output (tokens)</div>
+
+                  <!-- stacked representations -->
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <div class="card" style="padding:10px">
+                      <div
+                        style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin-bottom:8px">
+                        Token stream (flat)</div>
+                      <pre
+                        id="lexerTokensFlat">TOKEN(KEYWORD, int) TOKEN(IDENTIFIER, x) TOKEN(OPERATOR, =) TOKEN(INTEGER_LITERAL, 10) TOKEN(SEPARATOR, ;)</pre>
+                      <button class="copy" data-target="lexerTokensFlat">Copy</button>
+                    </div>
+
+                    <div class="card" style="padding:10px">
+                      <div
+                        style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin-bottom:8px">
+                        Token stream (array)</div>
+                      <pre
+                        id="lexerTokensArray">[ KEYWORD(int), IDENTIFIER(x), OPERATOR(=), INTEGER_LITERAL(10), SEPARATOR(;) ]</pre>
+                      <button class="copy" data-target="lexerTokensArray">Copy</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Parser (Syntactic Analysis)</h2>
+            <p>The <em>parser</em> consumes the token stream produced by the lexer and checks whether the sequence
+              matches the language grammar (production rules). If tokens conform, the parser builds a syntax tree (often
+              an AST). Otherwise it reports a syntax error.</p>
+
+            <p>Example simplified production:</p>
+            <pre>&lt;declaration&gt; → &lt;type&gt; &lt;identifier&gt; = &lt;literal&gt; ;</pre>
+
+            <div class="card" style="margin-top:12px">
+              <div
+                style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin-bottom:8px">
+                Broken statement example</div>
+              <pre>int = x 10;</pre>
+
+              <div
+                style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin:8px 0">
+                Lexer tokens</div>
+              <pre>[ KEYWORD(int), OPERATOR(=), IDENTIFIER(x), INTEGER_LITERAL(10), SEPARATOR(;) ]</pre>
+
+              <div
+                style="display:inline-block;padding:6px 8px;border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;margin:8px 0">
+                Parser</div>
+              <pre>Syntax error — tokens do not match any production for a declaration</pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Abstract Syntax Tree (AST)</h2>
+            <p>The AST is a hierarchical representation of program structure. Parsers construct the AST which later
+              phases (semantic analysis, optimization, code generation) use.</p>
+
+            <div class="diagram card" style="margin-top:12px">
+              <!-- Simple AST SVG -->
+              <svg width="100%" height="140" viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Simple AST diagram">
+                <g font-family="Arial" font-size="12">
+                  <rect x="250" y="6" width="100" height="26" rx="6" fill="#0b1220" stroke="#4f46e5" stroke-width="2" />
+                  <text x="300" y="24" fill="#cfe6ff" text-anchor="middle">Declaration</text>
+
+                  <rect x="40" y="70" width="120" height="22" rx="6" fill="#0b1220" stroke="#7c3aed" stroke-width="1" />
+                  <text x="100" y="85" fill="#cfe6ff" text-anchor="middle">Type: int</text>
+
+                  <rect x="240" y="70" width="120" height="22" rx="6" fill="#0b1220" stroke="#7c3aed"
+                    stroke-width="1" />
+                  <text x="300" y="85" fill="#cfe6ff" text-anchor="middle">Identifier: x</text>
+
+                  <rect x="440" y="70" width="120" height="22" rx="6" fill="#0b1220" stroke="#7c3aed"
+                    stroke-width="1" />
+                  <text x="500" y="85" fill="#cfe6ff" text-anchor="middle">Literal: 10</text>
+
+                  <path d="M300 32 L90 70" stroke="#96a6ff" stroke-width="2" fill="none" />
+                  <path d="M300 32 L300 70" stroke="#96a6ff" stroke-width="2" fill="none" />
+                  <path d="M300 32 L510 70" stroke="#96a6ff" stroke-width="2" fill="none" />
+                </g>
+              </svg>
+            </div>
+          </section>
+        </div>
+
+        <aside class="card">
+          <h3>Quick Notes</h3>
+          <ul class="muted">
+            <li>Lexer = tokenizes input (handles comments, whitespace).</li>
+            <li>Parser = validates grammar & builds AST.</li>
+            <li>A valid token stream may still fail parsing; lexer can succeed while parser fails.</li>
+            <li>Errors: Lexer errors (invalid characters), Parser errors (syntax mismatch).</li>
+          </ul>
+
+          <h3 style="margin-top:12px">Common Tokens</h3>
+          <pre><code>KEYWORD, IDENTIFIER, OPERATOR, INTEGER_LITERAL, SEPARATOR</code></pre>
+
+          <h3 style="margin-top:12px">Interview-ready line</h3>
+          <p class="muted">"A lexer breaks source into tokens; a parser checks those tokens against grammar and builds
+            an AST."</p>
+        </aside>
+      </div>
+
+      <!-- quick recap -->
+      <section class="recap">
+        <h2>Quick Recap</h2>
+        <ul class="muted">
+          <li>Lexeme: smallest meaningful string in source code.</li>
+          <li>Token: classified lexeme (keyword, identifier, literal, separator...).</li>
+          <li>Lexer: produces tokens from source text and strips whitespace/comments.</li>
+          <li>Parser: builds AST from token stream; reports syntax errors when grammar rules are violated.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // copy buttons
+    document.querySelectorAll('.copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if (!el) return;
+        try {
+          await navigator.clipboard.writeText(el.innerText);
+          const original = btn.innerText;
+          btn.innerText = 'Copied';
+          setTimeout(() => btn.innerText = original, 900);
+        } catch (e) {
+          alert('Copy failed — select and copy manually.');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

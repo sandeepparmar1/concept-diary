@@ -1,0 +1,131 @@
+ :root {
+     --bg: #0f1724;
+     --card: #0b1220;
+     --muted: #9aa4b2;
+     --accent: #4f46e5;
+     --text: #e6eef8;
+     --mono: Menlo, Monaco, monospace;
+ }
+
+ * {
+     box-sizing: border-box;
+ }
+
+ html,
+ body {
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     background: linear-gradient(180deg, var(--bg), #071327);
+     color: var(--text);
+     font-family: 'Inter', system-ui, Segoe UI, Roboto, Arial;
+ }
+
+ .wrap {
+     max-width: 900px;
+     margin: 28px auto;
+     padding: 20px;
+ }
+
+ header {
+     display: flex;
+     gap: 12px;
+     align-items: center;
+     margin-bottom: 20px;
+ }
+
+ .logo {
+     width: 52px;
+     height: 52px;
+     border-radius: 10px;
+     background: linear-gradient(135deg, var(--accent), #7c3aed);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-weight: 700;
+     color: white;
+ }
+
+ h1 {
+     margin: 0;
+     font-size: 22px;
+ }
+
+ .lead {
+     color: var(--muted);
+     margin-top: 6px;
+ }
+
+ main {
+     background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+     padding: 20px;
+     border-radius: 12px;
+ }
+
+ /* Topic list styling */
+ .topics-list {
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+     margin-top: 18px;
+ }
+
+ .topic-item {
+     background: var(--card);
+     padding: 16px 18px;
+     border-radius: 10px;
+     text-decoration: none;
+     color: var(--text);
+     border: 1px solid rgba(255, 255, 255, 0.05);
+     transition: all 0.25s ease;
+     display: flex;
+     flex-direction: column;
+ }
+
+ .topic-item:hover {
+     border-color: var(--accent);
+     background: rgba(79, 70, 229, 0.15);
+     transform: translateY(-2px);
+ }
+
+ .topic-item h3 {
+     margin: 0;
+     font-size: 18px;
+     color: var(--accent);
+ }
+
+ .topic-item p {
+     margin: 6px 0 0 0;
+     color: var(--muted);
+     line-height: 1.5;
+     font-size: 15px;
+ }
+
+ a.btn {
+     display: inline-block;
+     margin-top: 24px;
+     padding: 10px 14px;
+     border-radius: 8px;
+     background: var(--accent);
+     color: white;
+     text-decoration: none;
+     transition: background 0.2s ease;
+ }
+
+ a.btn:hover {
+     background: #6652ff;
+ }
+
+ @media (max-width: 600px) {
+     .wrap {
+         padding: 12px;
+     }
+
+     h1 {
+         font-size: 20px;
+     }
+
+     .topic-item h3 {
+         font-size: 16px;
+     }
+ }
