@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java — Data Types & Type Casting | Sandeep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../stylesheet/data-types-type-casting.css">
+
+  
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">J</div>
+      <div>
+        <h1>Java — Data Types & Type Casting</h1>
+        
+      </div>
+    </header>
+
+    <main>
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>Java is a <strong>statically typed</strong> and <strong>strongly typed</strong> language. Every variable has a declared type that the compiler uses for checks at compile-time and to determine memory layout at runtime.</p>
+      </section>
+
+      <section id="categories">
+        <h2>Categories of Data Types</h2>
+        <div class="cards">
+          <div class="card">
+            <strong>Primitive types</strong>
+            <div class="muted">byte, short, int, long, float, double, char, boolean</div>
+            <div class="note">Fixed-size, value types stored in variables. Have wrapper classes (e.g. <code>Integer</code>).</div>
+          </div>
+
+          <div class="card">
+            <strong>Reference types</strong>
+            <div class="muted">Classes, interfaces, arrays, enums</div>
+            <div class="note">Variables store references; objects live on the heap. Reference-type casting (up/down) is covered under inheritance/polymorphism.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="primitives">
+        <h2>Primitive Data Types — quick table</h2>
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Size</th><th>Default (fields)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>byte</code></td><td>8 bits (1 byte)</td><td>0</td></tr>
+            <tr><td><code>short</code></td><td>16 bits (2 bytes)</td><td>0</td></tr>
+            <tr><td><code>int</code></td><td>32 bits (4 bytes)</td><td>0</td></tr>
+            <tr><td><code>long</code></td><td>64 bits (8 bytes)</td><td>0L</td></tr>
+            <tr><td><code>float</code></td><td>32 bits</td><td>0.0f</td></tr>
+            <tr><td><code>double</code></td><td>64 bits</td><td>0.0d</td></tr>
+            <tr><td><code>char</code></td><td>16 bits (UTF-16)</td><td>'\u0000'</td></tr>
+            <tr><td><code>boolean</code></td><td>conceptual 1 bit</td><td>false</td></tr>
+          </tbody>
+        </table>
+
+        <div class="note">Note: default values apply to class-level fields only. Local variables must be initialized before use.</div>
+      </section>
+
+      <section id="autoboxing">
+        <h2>Wrappers & Autoboxing</h2>
+        <p>Every primitive has a corresponding wrapper class (e.g. <code>int</code> ↔ <code>Integer</code>). Java performs <strong>autoboxing</strong> and <strong>unboxing</strong> automatically:</p>
+        <pre id="codeBox1">Integer boxed = 10; // autoboxing
+int prim = boxed;    // unboxing</pre>
+        <button class="copy" data-target="codeBox1">Copy</button>
+      </section>
+
+      <section id="casting">
+        <h2>Type Casting (Primitives)</h2>
+        <p>Type casting converts values between primitive types. Casting is necessary when you convert a value from one primitive category to another. There are two broad categories:</p>
+        <ol class="muted">
+          <li><strong>Implicit (widening)</strong>: safe, automatic conversion from a smaller → larger type (no data loss in range).</li>
+          <li><strong>Explicit (narrowing)</strong>: manual cast from larger → smaller type; may lose information (range or precision).</li>
+        </ol>
+
+        <h3>Conversion hierarchy (widening)</h3>
+        <pre id="codeBox2">byte → short → int → long → float → double
+         
+char → int (char mixes into integer hierarchy)</pre>
+
+        <p class="muted">Widening conversions are performed by the compiler automatically. Example:</p>
+        <pre id="codeBox2a">int i = 123;
+long l = i;     // int → long (implicit)
+float f = l;    // long → float (implicit)</pre>
+        <button class="copy" data-target="codeBox2a">Copy</button>
+
+        <h3>Binary numeric promotion (in expressions)</h3>
+        <p class="muted">Before most binary arithmetic ( + - * / % ), Java promotes operands:</p>
+        <ol class="muted">
+          <li>If either operand is <code>double</code> → result is <code>double</code>.</li>
+          <li>Else if either is <code>float</code> → result is <code>float</code>.</li>
+          <li>Else if either is <code>long</code> → result is <code>long</code>.</li>
+          <li>Else both operands are promoted to <code>int</code> and the result is <code>int</code> (this includes <code>byte</code>, <code>short</code>, and <code>char</code>).</li>
+        </ol>
+
+        <p>Because of this, operations like <code>byte + byte</code> produce an <code>int</code> result. Assigning that back to a <code>byte</code> requires an explicit cast:</p>
+        <pre id="codeBox2b">byte b = 10;
+b = (byte)(b + 1); // required: (b + 1) is int</pre>
+        <button class="copy" data-target="codeBox2b">Copy</button>
+
+        <h3>Explicit (Narrowing) — details and pitfalls</h3>
+        <p>When you cast from a larger to a smaller type you may lose information. Common cases:</p>
+        <ul class="muted">
+          <li><strong>Range overflow</strong>: converting an <code>int</code> outside the <code>byte</code> range wraps using two's complement. Example: <code>int 130 → (byte)130 == -126</code>.</li>
+          <li><strong>Precision loss</strong>: casting <code>double</code> → <code>int</code> discards the fractional part (truncate toward zero).</li>
+          <li><strong>Floating-to-integer</strong>: very large <code>double</code> values may become <code>Long.MAX_VALUE</code>, <code>Long.MIN_VALUE</code> or produce implementation-defined behavior for out-of-range values — avoid blind casts.</li>
+        </ul>
+
+        <pre id="codeBox3">int i = 130;
+byte b = (byte) i; // result -126 (wrap-around)
+
+double d = 9.7;
+int x = (int) d;   // fractional part truncated -> 9
+
+long big = 9_000_000_000L;
+int y = (int) big; // overflow, high bits dropped</pre>
+        <button class="copy" data-target="codeBox3">Copy</button>
+
+        <div class="note"><strong>Warning:</strong> Narrowing can silently corrupt data. Use explicit casts only when you intentionally accept the loss, or validate the range before casting.</div>
+
+        <h3>Constants and compile-time narrowing</h3>
+        <p class="muted">The compiler allows assigning compile-time constant integer literals to smaller types when the literal value fits the target range. For example:</p>
+        <pre id="codeBox6">byte b1 = 10;       // OK (10 fits in byte)
+byte b2 = 128;      // compile error (128 out of byte range)
+
+final int c = 10;
+byte b3 = c;        // OK if <range> because c is a compile-time constant</pre>
+        <button class="copy" data-target="codeBox6">Copy</button>
+
+        </section>
+
+      <section id="examples">
+        <h2>Common examples & pitfalls</h2>
+        <div class="card">
+          <strong>Example — integer division:</strong>
+          <pre id="codeBox4">int a = 5;
+int b = 2;
+System.out.println(a / b);   // prints 2 (integer division)</pre>
+          <button class="copy" data-target="codeBox4">Copy</button>
+
+          <div class="muted" style="margin-top:8px">Fix: cast one operand to <code>double</code> to get floating division: <code>(double)a / b</code></div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <strong>Example — large literal suffixes</strong>
+          <pre id="codeBox5">long id = 12345678900L; // 'L' required for long literals beyond int range
+float pi = 3.14f;       // 'f' required for float literals</pre>
+          <button class="copy" data-target="codeBox5">Copy</button>
+        </div>
+      </section>
+
+      <section id="recap">
+        <h2>Quick Recap</h2>
+        <div class="recap">
+          <ul class="muted">
+            <li>Java is statically & strongly typed—types are checked at compile time.</li>
+            <li>Primitives: 8 built-in fixed-size types; reference types point to objects on the heap.</li>
+            <li>Widening (implicit) is safe; narrowing (explicit) can lose data—use casts intentionally.</li>
+            <li>Arithmetic promotes operands (small → int, larger type wins).</li>
+            <li>Reference-type casting (upcast/downcast) is part of inheritance — covered later.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // copy buttons
+    document.querySelectorAll('.copy').forEach(btn=>{
+      btn.addEventListener('click',async ()=>{
+        const id = btn.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if(!el) return;
+        try{ await navigator.clipboard.writeText(el.innerText); btn.innerText='Copied'; setTimeout(()=>btn.innerText='Copy',900);}catch(e){alert('Copy failed')}
+      });
+    });
+  </script>
+</body>
+</html>
