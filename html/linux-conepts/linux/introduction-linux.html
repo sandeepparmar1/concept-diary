@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linux — Introduction and Structure | Sandeep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../stylesheet/introduction-linux.css">
+  <link rel="stylesheet" href="../../../stylesheet/btn.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">LIN</div>
+      <div>
+        <h1>🐧 Linux — Introduction & Structure</h1>
+        <div class="lead" style="color:var(--muted)">Open-source power, stability, and structure explained.</div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <p><strong>Linux</strong> is an <strong>open-source operating system kernel</strong> created by <strong>Linus
+            Torvalds in 1991</strong>.
+          Its design and philosophy are inspired by <strong>UNIX</strong>, making it stable, secure, and multi-user
+          friendly.</p>
+
+        <p>Unlike other operating systems, Linux is <strong>free and open-source</strong>, meaning anyone can modify and
+          redistribute it.
+          This openness led to many <strong>Linux distributions (distros)</strong> — complete operating systems built
+          around the Linux kernel.</p>
+      </section>
+
+      <section>
+        <h2>1. Popular Linux Distributions</h2>
+        <ul>
+          <li><strong>Ubuntu</strong> → Beginner-friendly, widely used for servers and desktops.</li>
+          <li><strong>Red Hat Enterprise Linux (RHEL)</strong> → Enterprise-grade, commercially supported.</li>
+          <li><strong>CentOS / Rocky Linux / AlmaLinux</strong> → Free RHEL-compatible community editions.</li>
+          <li><strong>Fedora</strong> → Cutting-edge distro, often preferred by developers.</li>
+          <li><strong>Debian</strong> → Known for its extreme stability and foundation for Ubuntu.</li>
+          <li><strong>Slackware, Arch, Kali, SUSE, Mint</strong> → Specialized or community-driven options.</li>
+        </ul>
+
+        <p>Despite their differences, all Linux distros share the <strong>same core structure, command syntax, and file
+            system hierarchy</strong>.
+          Mastering one allows you to work comfortably across all others.</p>
+      </section>
+
+      <section>
+        <h2>2. Key Features of Linux</h2>
+        <ul>
+          <li><strong>Multi-user</strong> → Multiple users can work simultaneously.</li>
+          <li><strong>Multitasking</strong> → Runs several processes at once.</li>
+          <li><strong>Security and Permissions</strong> → Advanced access control and file-level security.</li>
+          <li><strong>Portability</strong> → Runs on almost any hardware platform.</li>
+          <li><strong>Networking Support</strong> → Built-in tools for managing networks and servers.</li>
+          <li><strong>Open Source</strong> → Freely available to modify, study, and distribute.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3. Structure of a Linux-Based Operating System</h2>
+        <p>Linux is organized into several layers, each responsible for specific functions:</p>
+
+        <table>
+          <tr>
+            <th>Layer</th>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Layer 1</strong></td>
+            <td>Hardware</td>
+            <td>Physical components like CPU, RAM, storage, and network devices.</td>
+          </tr>
+          <tr>
+            <td><strong>Layer 2</strong></td>
+            <td>Kernel</td>
+            <td>The <strong>core of the OS</strong> that manages processes, memory, devices, networking, and file
+              systems.</td>
+          </tr>
+          <tr>
+            <td><strong>Layer 3</strong></td>
+            <td>Shell</td>
+            <td>Interface between the user and kernel; interprets and executes commands entered in the terminal.</td>
+          </tr>
+          <tr>
+            <td><strong>Layer 4</strong></td>
+            <td>Application Layer</td>
+            <td>User-level applications and programs (editors, browsers, servers) that rely on shell/kernel functions.
+            </td>
+          </tr>
+        </table>
+      </section>
+
+      <section>
+        <h2>4. How Linux Executes a Command</h2>
+        <pre><code>User → Shell → Kernel → Hardware → Kernel → Shell → User</code></pre>
+
+        <h3>Step-by-step Command Flow:</h3>
+        <ol>
+          <li><strong>User Input:</strong> You type a command like <code>ls</code>, <code>cat</code>, or
+            <code>mkdir</code>.</li>
+          <li><strong>Shell Interpretation:</strong> The shell checks syntax and validity.
+            • If invalid → shows an <strong>error</strong>.
+            • If valid → translates it into a kernel-understandable format.</li>
+          <li><strong>Kernel Execution:</strong> The kernel interacts with hardware to execute requested operations.
+          </li>
+          <li><strong>Response Back to User:</strong> Output is returned via shell and displayed in your terminal.</li>
+        </ol>
+      </section>
+
+      <a class="btn" href="linux-commands.html"> <- Back to Linux Topics</a>
+    </main>
+  </div>
+</body>
+
+</html>
