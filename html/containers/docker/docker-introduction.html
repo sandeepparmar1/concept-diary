@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Docker — Core Concepts | Sandeep</title>
+
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../stylesheet/docker-introduction.css">
+
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div class="brand">
+                <div class="logo">DOCKER</div>
+                <div>
+                    <h1>Docker — Core Concepts</h1>
+                    <div class="subtitle">Images, containers, Dockerfile, volumes and how Docker fits into the dev
+                        workflow</div>
+                </div>
+            </div>
+            <div class="pill">Notebook • Docker</div>
+        </header>
+
+        <main>
+            <!-- intro / quick notes -->
+            <div class="intro">
+                <div>
+                    <p class="lead">Docker packages an application and all of its dependencies into a lightweight,
+                        portable <strong>container</strong>. Containers share the host kernel, so they boot fast and use
+                        fewer resources than full VMs. Below are the core ideas you should remember and link out to as
+                        individual topic pages.</p>
+
+                    <!-- concept cards -->
+                    <div class="grid" aria-hidden="true">
+                        <a class="concept" href="docker-images.html">
+                            <div class="concept-row">
+                                <div class="icon" aria-hidden="true">
+                                    <!-- simple image icon -->
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <rect x="2" y="4" width="20" height="4" rx="1.2" fill="white" opacity="0.06" />
+                                        <rect x="2" y="10" width="20" height="4" rx="1.2" fill="white" opacity="0.06" />
+                                        <rect x="2" y="16" width="20" height="4" rx="1.2" fill="white" opacity="0.06" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3>Images</h3>
+                                    <p>Immutable blueprints made of layers. Build with a Dockerfile and push to a
+                                        registry.</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="concept" href="docker-containers.html">
+                            <div class="concept-row">
+                                <div class="icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="8" fill="white" opacity="0.04" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3>Containers</h3>
+                                    <p>Runtime instances of images. Start, stop, and inspect the process & filesystem.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="concept" href="dockerfile.html">
+                            <div class="concept-row">
+                                <div class="icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M4 6h16v12H4z" fill="white" opacity="0.04" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3>Dockerfile</h3>
+                                    <p>Step-by-step instructions (FROM, RUN, COPY, CMD) used to build images.</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="concept" href="#">
+                            <div class="concept-row">
+                                <div class="icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M3 6h18v12H3z" fill="white" opacity="0.04" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3>Registry</h3>
+                                    <p>Store and distribute images (Docker Hub, GHCR). Tag & push from CI.</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="concept" href="docker-volumes.html">
+                            <div class="concept-row">
+                                <div class="icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <rect x="3" y="4" width="18" height="6" rx="1.2" fill="white" opacity="0.04" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3>Volumes</h3>
+                                    <p>Persistent storage outside containers for databases and stateful services.</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="concept" href="docker-networks.html">
+                            <div class="concept-row">
+                                <div class="icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M12 2v20" stroke="white" opacity="0.06" />
+                                        <path d="M2 12h20" stroke="white" opacity="0.06" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3>Networks</h3>
+                                    <p>Connect containers with user-defined networks; map ports and isolate traffic.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- right column: quick commands + example -->
+                <aside class="panel">
+                    <h4>Quick Commands</h4>
+                    <p class="small"><strong>Build</strong> — <code class="inline">docker build -t myapp:1.0 .</code>
+                    </p>
+                    <p class="small"><strong>Run</strong> — <code
+                            class="inline">docker run -d -p 8080:80 myapp:1.0</code></p>
+                    <p class="small"><strong>List</strong> — <code class="inline">docker ps -a</code></p>
+                    <p class="small mt-12"><strong>Tip:</strong> Use small base images and multi-stage builds for
+                        lighter images.</p>
+                </aside>
+            </div>
+
+            <!-- architecture & workflow -->
+            <div class="row">
+                <div class="panel">
+                    <h4>Docker Architecture</h4>
+                    <p class="small">Client → Daemon → Kernel → Hardware. The daemon (dockerd) talks to the OS to create
+                        namespaces, cgroups, and attach filesystems to containers.</p>
+
+                    <h4 class="mt-12">Core Pieces</h4>
+                    <ul class="list">
+                        <li><strong>Docker Engine:</strong> Builds and runs containers.</li>
+                        <li><strong>Docker Daemon:</strong> Background service that manages state.</li>
+                        <li><strong>Docker CLI:</strong> User interface to talk with daemon.</li>
+                    </ul>
+                </div>
+
+                <div class="panel">
+                    <h4>DevOps Workflow</h4>
+                    <ol class="list" style="padding-left:18px">
+                        <li><strong>Build</strong> image from Dockerfile.</li>
+                        <li><strong>Test</strong> containers locally or in CI.</li>
+                        <li><strong>Push</strong> to registry (CI → registry).</li>
+                        <li><strong>Deploy</strong> pull & run in production; orchestrate with Kubernetes.</li>
+                    </ol>
+
+                    <h4 class="mt-12">Notes</h4>
+                    <p class="small">Containers are ephemeral. Use volumes for persistent data. Security: run minimal
+                        privileges and scan images for vulnerabilities.</p>
+                </div>
+            </div>
+
+            <!-- example dockerfile -->
+            <div class="panel mt-18">
+                <h4>Simple Dockerfile Example</h4>
+                <pre><code>FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY target/myapp.jar /app/
+CMD ["java", "-jar", "myapp.jar"]</code></pre>
+            </div>
+
+
+            <div class="footer">
+                <div class="small">Docker Introduction</div>
+                <div style="display:flex;gap:8px">
+                    <a class="btn" href="../docker/docker-topic-card.html"> <- Back to topics</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // small safety: prevent horizontal scroll on some devices
+        document.documentElement.style.overflowX = 'hidden';
+    </script>
+</body>
+
+</html>
