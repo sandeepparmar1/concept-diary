@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java — Conditional Statements | Sandeep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../stylesheet/conditional-statement.css">
+  <link rel="stylesheet" href="../../../stylesheet/btn.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">JAVA</div>
+      <div>
+        <h1>Conditional Statements</h1>
+        <div class="lead" style="color:var(--muted)">Control the flow of your program using decisions.</div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Introduction</h2>
+        <p><strong>Conditional statements</strong> allow your program to execute certain blocks of code <strong>only when a condition is true</strong>. Each condition evaluates to a <code>boolean</code> value (<code>true</code> or <code>false</code>).</p>
+      </section>
+
+      <section>
+        <h2>1. if Statement</h2>
+        <pre><code>if (condition) {
+    // statements
+}</code></pre>
+        <ul>
+          <li>If the condition is <strong>true</strong>, the code executes.</li>
+          <li>Condition can be a <strong>boolean expression</strong> or a <strong>boolean variable</strong>.</li>
+        </ul>
+        <pre><code>if (2 == 2) {
+    System.out.println("True!");
+}
+
+int i = 10;
+if (i > 9) {
+    System.out.println("i is greater than 9");
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>2. if–else Statement</h2>
+        <pre><code>if (condition) {
+    // executes if true
+} else {
+    // executes if false
+}</code></pre>
+        <pre><code>int marks = 80;
+
+if (marks >= 50) {
+    System.out.println("Pass");
+} else {
+    System.out.println("Fail");
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>3. if–else if–else Ladder</h2>
+        <pre><code>if (condition1) {
+    // block 1
+} else if (condition2) {
+    // block 2
+} else {
+    // default block
+}</code></pre>
+        <pre><code>int marks = 85;
+
+if (marks >= 90) {
+    System.out.println("Grade A");
+} else if (marks >= 75) {
+    System.out.println("Grade B");
+} else if (marks >= 60) {
+    System.out.println("Grade C");
+} else {
+    System.out.println("Fail");
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>4. Variable Initialization Inside if</h2>
+        <pre><code>int i = 10;
+int j;
+if (i == 10) {
+    j = 20;
+}
+System.out.println(j); // ❌ Compile-time error</code></pre>
+        <p><strong>Error:</strong> variable j might not have been initialized</p>
+        <p>Local variables must be initialized before use. The compiler cannot guarantee that <code>j</code> was assigned, as the condition might be false.</p>
+
+        <h3>Fixed Version</h3>
+        <pre><code>int i = 10;
+int j;
+if (i == 10) {
+    j = 20;
+} else {
+    j = 30;
+}
+System.out.println(j); // ✅ Works fine</code></pre>
+
+        <h3>Constant Expression Case</h3>
+        <pre><code>final int i = 10;
+int j;
+if (i == 10) {
+    j = 20;
+}
+System.out.println(j); // ✅ Works fine</code></pre>
+
+        <table>
+          <tr><th>Type of Expression</th><th>Example</th><th>Evaluated At</th><th>Compiler Behavior</th></tr>
+          <tr><td>Constant Expression</td><td><code>10 == 10</code>, <code>if(true)</code>, <code>final int x = 10; if (x == 10)</code></td><td>Compile-time</td><td>Compiler can predict result</td></tr>
+          <tr><td>Variable Expression</td><td><code>if (i == 10)</code></td><td>Runtime (JVM)</td><td>Compiler cannot predict — may mark variable uninitialized</td></tr>
+        </table>
+      </section>
+
+      <section>
+        <h2>5.. switch Statement</h2>
+        <pre><code>switch (expression) {
+    case value1:
+        // statements
+        break;
+    default:
+        // statements
+}</code></pre>
+        <ul>
+          <li>Expression can be <code>byte</code>, <code>short</code>, <code>int</code>, <code>char</code>, or <code>String</code>.</li>
+          <li>Cannot use <code>long</code>, <code>float</code>, <code>double</code>, or <code>boolean</code>.</li>
+          <li>If <code>break</code> is missing, execution “falls through”.</li>
+        </ul>
+        <pre><code>int day = 3;
+
+switch (day) {
+    case 1:
+        System.out.println("Monday");
+        break;
+    case 2:
+        System.out.println("Tuesday");
+        break;
+    case 3:
+        System.out.println("Wednesday");
+        break;
+    default:
+        System.out.println("Invalid day");
+}</code></pre>
+        <p><strong>Output:</strong> Wednesday</p>
+      </section>
+
+      <section>
+        <h2>Quick Comparison</h2>
+        <table>
+          <tr><th>Structure</th><th>Use Case</th><th>Evaluated</th></tr>
+          <tr><td><code>if / if-else</code></td><td>When conditions are complex (boolean expressions)</td><td>At runtime</td></tr>
+          <tr><td><code>switch</code></td><td>When checking one variable against multiple constant values</td><td>At runtime</td></tr>
+        </table>
+      </section>
+
+      <a class="btn" href="java-topic-card.html"> <-Back to Java Topics</a>
+    </main>
+  </div>
+</body>
+</html>

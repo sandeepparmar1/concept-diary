@@ -1,0 +1,84 @@
+  :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --muted: #9aa4b2;
+      --accent: #4f46e5;
+      --text: #e6eef8;
+      --mono: Menlo, Monaco, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, var(--bg), #071327);
+      color: var(--text);
+      font-family: 'Inter', system-ui, Segoe UI, Roboto, Arial;
+      line-height: 1.7;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 18px;
+    }
+    h1 { margin: 0; font-size: 22px; }
+    h2 { color: var(--accent); margin-top: 32px; }
+    p, li { color: var(--text); }
+    ul { margin-left: 20px; }
+    main {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+      padding: 22px;
+      border-radius: 14px;
+    }
+    code {
+      background: rgba(255,255,255,0.05);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+    pre {
+      background: rgba(0,0,0,0.25);
+      padding: 14px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    th, td {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 10px;
+      text-align: left;
+    }
+    th {
+      background: rgba(255,255,255,0.05);
+      color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 14px; }
+      h1 { font-size: 20px; }
+    }
