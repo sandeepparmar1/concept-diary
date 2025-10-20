@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Docker Containers — Sandeep</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../stylesheet/docker-container.css">
+    <link rel="stylesheet" href="../../../stylesheet/scroll-bar-hide.css">
+
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div class="brand">
+                <div class="logo">DC</div>
+                <div>
+                    <h1>Docker Containers</h1>
+                    <div class="subtitle">Definition, lifecycle, commands — notebook style</div>
+                </div>
+            </div>
+            <div class="pill">Notebook • Docker</div>
+        </header>
+
+        <main>
+            <section id="intro">
+                <h2>Definition</h2>
+                <p class="lead"><strong>Container</strong> — a running instance of a Docker image. Containers are
+                    <strong>mutable</strong> and run in isolated environments (their own filesystem, processes, network,
+                    ports).</p>
+
+                <div class="grid">
+                    <div class="panel">
+                        <h3>Key Points</h3>
+                        <ul style="padding-left:18px;margin-top:8px">
+                            <li>Multiple containers can run on the same host.</li>
+                            <li>Containers can communicate when attached to the same network.</li>
+                            <li>Failure in one container doesn't affect others.</li>
+                            <li>Containers are lightweight and fast to start.</li>
+                        </ul>
+                    </div>
+
+                    <div class="panel">
+                        <h3>Container vs Image</h3>
+                        <p class="small">Image = immutable blueprint (like a Java class). Container = mutable runtime
+                            instance (like an object).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lifecycle" class="mt-18">
+                <h2>Container Life Cycle</h2>
+                <div class="panel">
+                    <div class="lifecycle">Image → Create Container → Start Container → Stop Container → Kill Container
+                        ↘ Pause/Unpause Container
+                        ↘ Restart Container</div>
+
+                    <!-- Create -->
+                    <div class="panel">
+                        <h3>Create Container</h3>
+                        <p class="small">Create a container from an image (doesn't start it):</p>
+                        <div class="cmd-wrap">
+                            <pre id="cmd-create">docker container create &lt;image:tag&gt;</pre>
+                            <button class="copy-btn" data-target="cmd-create">Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Start -->
+                    <div class="panel">
+                        <h3>Start Container</h3>
+                        <p class="small">Start a stopped or newly created container:</p>
+                        <div class="cmd-wrap">
+                            <pre id="cmd-start">docker container start &lt;container_id_or_name&gt;</pre>
+                            <button class="copy-btn" data-target="cmd-start">Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Stop -->
+                    <div class="panel">
+                        <h3>Stop Container</h3>
+                        <p class="small">Gracefully stop (SIGTERM then SIGKILL after timeout):</p>
+                        <div class="cmd-wrap">
+                            <pre id="cmd-stop">docker container stop &lt;container_id_or_name&gt;</pre>
+                            <button class="copy-btn" data-target="cmd-stop">Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Kill -->
+                    <div class="panel">
+                        <h3>Kill Container</h3>
+                        <p class="small">Force stop immediately (SIGKILL):</p>
+                        <div class="cmd-wrap">
+                            <pre id="cmd-kill">docker container kill &lt;container_id_or_name&gt;</pre>
+                            <button class="copy-btn" data-target="cmd-kill">Copy</button>
+                        </div>
+                        <p class="small mt-12"><strong>Difference:</strong> <code class="small">stop</code> is graceful;
+                            <code class="small">kill</code> is immediate.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pause-restart" class="mt-18">
+                <h2>Pause / Restart / Remove</h2>
+
+                <div class="panel">
+                    <h3>Pause / Unpause</h3>
+                    <p class="small">Pause suspends all processes (keeps memory); unpause resumes.</p>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-pause">docker container pause &lt;container_id_or_name&gt;</pre>
+                        <button class="copy-btn" data-target="cmd-pause">Copy</button>
+                    </div>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-unpause">docker container unpause &lt;container_id_or_name&gt;</pre>
+                        <button class="copy-btn" data-target="cmd-unpause">Copy</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Restart</h3>
+                    <p class="small">Stop then start the container:</p>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-restart">docker container restart &lt;container_id_or_name&gt;</pre>
+                        <button class="copy-btn" data-target="cmd-restart">Copy</button>
+                    </div>
+
+                    <h3 class="mt-12">Remove</h3>
+                    <p class="small">Remove container completely (must be stopped):</p>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-rm">docker container rm &lt;container_id_or_name&gt;</pre>
+                        <button class="copy-btn" data-target="cmd-rm">Copy</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="docker-run" class="mt-18">
+                <h2>docker run</h2>
+                <div class="panel">
+                    <p class="small"><code class="small">docker run</code> combines create + start in a single command.
+                    </p>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-run">docker run &lt;image:tag&gt;</pre>
+                        <button class="copy-btn" data-target="cmd-run">Copy</button>
+                    </div>
+                    <p class="small mt-12">Common options: <code class="small">-d</code>, <code class="small">-p</code>,
+                        <code class="small">--name</code>, <code class="small">-v</code>.</p>
+                </div>
+            </section>
+
+            <section id="listing" class="mt-18">
+                <h2>Listing Containers</h2>
+                <div class="panel">
+                    <p class="small">List running containers:</p>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-ps">docker container ls</pre>
+                        <button class="copy-btn" data-target="cmd-ps">Copy</button>
+                    </div>
+
+                    <p class="small mt-12">Shorthand:</p>
+                    <div class="cmd-wrap mt-12">
+                        <pre id="cmd-ps2">docker ps</pre>
+                        <button class="copy-btn" data-target="cmd-ps2">Copy</button>
+                    </div>
+
+                    <div class="table-wrap mt-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Flag</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="small">-a</code></td>
+                                    <td>Show all containers (running + stopped + exited)</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="small">-q</code></td>
+                                    <td>Show only container IDs</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="small">-l</code></td>
+                                    <td>Show latest created container</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="small">-f</code></td>
+                                    <td>Filter by condition (status, ancestor, name, publish)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="small mt-12">Examples:</p>
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-a">docker ps -a</pre>
+                            <button class="copy-btn" data-target="ex-ps-a">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-q">docker ps -q</pre>
+                            <button class="copy-btn" data-target="ex-ps-q">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-l">docker ps -l</pre>
+                            <button class="copy-btn" data-target="ex-ps-l">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-f-r">docker ps -f "status=running"</pre>
+                            <button class="copy-btn" data-target="ex-ps-f-r">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-f-a">docker ps -f "ancestor=nginx:latest"</pre>
+                            <button class="copy-btn" data-target="ex-ps-f-a">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-f-n">docker ps -f "name=webapp"</pre>
+                            <button class="copy-btn" data-target="ex-ps-f-n">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="cmd-wrap">
+                            <pre id="ex-ps-f-p">docker ps -f "publish=8080"</pre>
+                            <button class="copy-btn" data-target="ex-ps-f-p">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="footer">
+                <div class="small">Docker — Containers</div>
+                <div style="display:flex;gap:8px">
+                    <a class="btn" href="../docker/docker-topic-card.html"> <- Back to topics</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Copy buttons behaviour
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const id = btn.getAttribute('data-target');
+                const el = document.getElementById(id);
+                if (!el) return;
+                const text = el.innerText;
+                try {
+                    await navigator.clipboard.writeText(text);
+                    const prev = btn.innerText;
+                    btn.innerText = 'Copied';
+                    setTimeout(() => btn.innerText = prev, 900);
+                } catch (e) {
+                    // fallback: select the text for manual copy
+                    const range = document.createRange();
+                    range.selectNodeContents(el);
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                    alert('Copy failed — text selected. Press Ctrl/Cmd+C to copy.');
+                }
+            });
+        });
+
+        // ensure no horizontal overflow
+        document.documentElement.style.overflowX = 'hidden';
+    </script>
+</body>
+
+</html>
