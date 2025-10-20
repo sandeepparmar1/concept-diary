@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Core — Iterative and Transfer Statements</title>
+
+  <link rel="stylesheet" href="../../../stylesheet/loops.css">
+  <link rel="stylesheet" href="../../../stylesheet/btn.css">
+
+
+</head>
+
+<body>
+  <h1>Iterative Statements and Transfer Statements</h1>
+
+  <section>
+    <h2>Overview</h2>
+    <p>Iterative statements run a block of code repeatedly based on a condition. Java provides three basic loop types:
+    </p>
+    <ul>
+      <li><strong>for loop</strong> and enhanced <strong>for each</strong> loop</li>
+      <li><strong>while</strong> loop</li>
+      <li><strong>do while</strong> loop</li>
+    </ul>
+    <p>Transfer statements change the normal control flow. They include <strong>break</strong>,
+      <strong>continue</strong>, and <strong>return</strong>.
+    </p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>for Loop</h2>
+    <p>Used when you know or expect how many iterations are required.</p>
+
+    <h3>Syntax</h3>
+    <pre><code>for (expr1; expr2; expr3) {
+    // body
+}</code></pre>
+
+    <h3>Execution Order per Iteration</h3>
+    <ol>
+      <li><code>expr1</code> runs once before the loop starts.</li>
+      <li><code>expr2</code> is evaluated. If true, body runs; else loop ends.</li>
+      <li>After body finishes, <code>expr3</code> runs, then control returns to <code>expr2</code>.</li>
+    </ol>
+
+    <h3>Details and Rules</h3>
+    <ul>
+      <li><code>expr1</code>, <code>expr2</code>, and <code>expr3</code> are optional.</li>
+      <li>If <code>expr2</code> is omitted, it becomes an infinite loop.</li>
+      <li><code>expr1</code> can contain a declaration. Scope is limited to the loop.</li>
+    </ul>
+
+    <pre><code>for (int i = 0, j = 10; i < j; i++, j--) { ... }</code></pre>
+
+    <p>Not allowed:</p>
+    <pre><code>for (int i = 0, int j = 0; ... ) { } // compile error</code></pre>
+
+    <h3>Unreachable Statement Rules</h3>
+    <pre><code>for (; false; ) {
+   System.out.println("unreachable");
+}
+System.out.println("this is after loop");</code></pre>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Enhanced for Each Loop</h2>
+    <pre><code>for (ElementType var : collectionOrArray) {
+    // use var
+}</code></pre>
+
+    <p>It is designed for iterating arrays and collections easily. Read-oriented and internally uses the iterator of the
+      collection.</p>
+    <pre><code>int[] arr = {1,2,3};
+for (int x : arr) {
+   x = x + 1; // arr unchanged
+}</code></pre>
+
+    <p>Concurrent modifications cause <code>ConcurrentModificationException</code> in fail-fast collections like
+      ArrayList.</p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>while Loop</h2>
+    <p>Used when iteration count is unknown and condition is evaluated before the body.</p>
+    <pre><code>int i = 0;
+while (i < 5) {
+    System.out.println(i);
+    i++;
+}</code></pre>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>do while Loop</h2>
+    <p>Guarantees at least one execution of the loop body.</p>
+    <pre><code>int i = 10;
+do {
+   System.out.println("runs once");
+} while (i < 5);</code></pre>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Transfer Statements</h2>
+
+    <h3>break</h3>
+    <p>The <strong>break</strong> statement immediately exits the innermost loop or <code>switch</code> statement. It
+      can also be used with a label to exit a labeled outer loop.</p>
+    <p>Use cases:</p>
+    <ul>
+      <li>Stop iteration once a certain condition is met.</li>
+      <li>Exit nested loops using labels.</li>
+      <li>Terminate a <code>switch</code> case to prevent fall-through.</li>
+    </ul>
+    <pre><code>for (int i = 0; i &lt; 10; i++) {
+   if (i == 5) break; // exits loop
+}</code></pre>
+
+    <p><strong>Labeled break example:</strong></p>
+    <pre><code>outer:
+for (int i = 0; i &lt; 3; i++) {
+    for (int j = 0; j &lt; 3; j++) {
+        if (j == 2) break outer; // breaks outer loop
+    }
+}</code></pre>
+
+    <h3>continue</h3>
+    <p>The <strong>continue</strong> statement skips the remaining statements in the current iteration and moves to the
+      next iteration of the loop. Behavior depends on loop type:</p>
+    <ul>
+      <li>In <code>for</code> loops, <code>expr3</code> runs before the next iteration check.</li>
+      <li>In <code>while</code> and <code>do while</code>, control jumps to the condition check immediately.</li>
+    </ul>
+    <pre><code>for (int i = 0; i &lt; 5; i++) {
+    if (i == 3) continue;
+    System.out.println(i);
+}
+// prints 0 1 2 4</code></pre>
+
+    <p><strong>Labeled continue example:</strong></p>
+    <pre><code>outer:
+for (int i = 0; i &lt; 3; i++) {
+   for (int j = 0; j &lt; 3; j++) {
+       if (j == 1) continue outer; // skip to next i
+       System.out.println(i + " " + j);
+   }
+}</code></pre>
+
+    <h3>return</h3>
+    <p>The <strong>return</strong> statement immediately exits the current method. Optionally, it can return a value. It
+      also ends all remaining statements in the method.</p>
+    <p>Use cases:</p>
+    <ul>
+      <li>Exit early when a result is ready.</li>
+      <li>Stop execution if an error condition occurs.</li>
+    </ul>
+    <pre><code>int find(int[] a, int key) {
+    for (int i = 0; i &lt; a.length; i++) {
+        if (a[i] == key) return i; // exit method
+    }
+    return -1; // key not found
+}</code></pre>
+  </section>
+
+  <a class="btn" href="java-topic-card.html" style="background: green;" > <- Back to Programming</a>
+
+</body>
+
+</html>
