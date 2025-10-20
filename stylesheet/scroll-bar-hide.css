@@ -1,0 +1,38 @@
+/* === Hide scrollbars but keep scrolling ===
+   Put this in your <style> in <head>.
+   Works across modern Chrome/Edge/Safari/Firefox. 
+   NOTE: some OS/UA combos may still show overlay scrollbars — see notes below.
+*/
+
+/* Recommended: apply to both html and body */
+html, body {
+  /* allow scrolling, but hide the chrome */
+  overflow-x: hidden;   /* prevent horizontal scrollbars if you want */
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* WebKit/Blink (Chrome, Safari, Edge Chromium) — hide by setting size to 0 */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Extra: make scrollbar fully transparent (fallback) — safer on OSes that resist hiding */
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* If a specific element is scrollable (e.g. .wrap), hide its scrollbar too */
+.wrap {
+  -ms-overflow-style: none;   /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+.wrap::-webkit-scrollbar { width: 0; height: 0; }
+.wrap::-webkit-scrollbar-thumb { background: transparent; }

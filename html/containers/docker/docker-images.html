@@ -3,17 +3,19 @@
 
 <head>
   <meta charset="utf-8" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Docker Images — Sandeep</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="../../../stylesheet/docker-images.css">
+   <link rel="stylesheet" href="../../../stylesheet/scroll-bar-hide.css">
 </head>
 
 <body>
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="logo">DOCKER</div>
+        <div class="logo">DC</div>
         <div>
           <h1>Docker Images — Blueprint of Containers</h1>
           <div class="subtitle">Immutable images, layered filesystem, caching & common commands</div>
@@ -24,7 +26,7 @@
 
     <main>
       <section id="what">
-        <h2>1️⃣ What is a Docker Image?</h2>
+        <h2>1. What is a Docker Image?</h2>
         <p class="lead"><strong>Docker Image</strong> — a <strong>read-only</strong>, built artifact that contains the
           application code, dependencies, libraries, configuration files and metadata (exposed ports, env vars,
           entrypoint, etc.).</p>
@@ -33,7 +35,7 @@
       </section>
 
       <section id="how">
-        <h2>2️⃣ How Docker Images Work (under the hood)</h2>
+        <h2>2. How Docker Images Work (under the hood)</h2>
         <div class="grid">
           <div class="panel">
             <p class="small">Images are layered filesystem snapshots built with a union filesystem (OverlayFS). Each
@@ -66,7 +68,7 @@ CMD ["python3","app.py"]</pre>
       </section>
 
       <section id="diagram">
-        <h2>3️⃣ Image Architecture (visual)</h2>
+        <h2>3. Image Architecture (visual)</h2>
         <div class="panel">
           <pre>+----------------------------------------+
 | Container (Writable Layer)             |
@@ -87,7 +89,7 @@ CMD ["python3","app.py"]</pre>
       </section>
 
       <section id="commands">
-        <h2>4️⃣ Common Commands for Managing Images</h2>
+        <h2>4. Common Commands for Managing Images</h2>
 
         <div class="panel">
           <div class="small"><strong>List all images</strong></div>
