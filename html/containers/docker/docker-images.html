@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Docker Images — Sandeep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="../../../stylesheet/docker-images.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">DOCKER</div>
+        <div>
+          <h1>Docker Images — Blueprint of Containers</h1>
+          <div class="subtitle">Immutable images, layered filesystem, caching & common commands</div>
+        </div>
+      </div>
+      <div class="pill">Notebook • Docker</div>
+    </header>
+
+    <main>
+      <section id="what">
+        <h2>1️⃣ What is a Docker Image?</h2>
+        <p class="lead"><strong>Docker Image</strong> — a <strong>read-only</strong>, built artifact that contains the
+          application code, dependencies, libraries, configuration files and metadata (exposed ports, env vars,
+          entrypoint, etc.).</p>
+        <p>Think of an image as an <em>immutable blueprint</em> (like a Java class) and the container as the runtime
+          instance (the object).</p>
+      </section>
+
+      <section id="how">
+        <h2>2️⃣ How Docker Images Work (under the hood)</h2>
+        <div class="grid">
+          <div class="panel">
+            <p class="small">Images are layered filesystem snapshots built with a union filesystem (OverlayFS). Each
+              Dockerfile instruction typically creates a new read-only layer. Layers are cached and shared between
+              images when possible.</p>
+            <div class="mt-12">
+              <div class="small"><strong>Example Dockerfile</strong></div>
+              <div class="cmd-row" style="margin-top:8px">
+                <pre id="df1">FROM ubuntu:20.04
+RUN apt-get update && apt-get install -y python3
+COPY . /app
+CMD ["python3","app.py"]</pre>
+                <button class="copy-btn" data-target="df1">Copy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <p class="small"><strong>Layer explanation</strong></p>
+            <ul style="padding-left:18px;margin-top:8px">
+              <li>Base layer — <code class="kbd">ubuntu:20.04</code></li>
+              <li>RUN layer — packages added via <code class="kbd">RUN</code></li>
+              <li>COPY layer — application files added via <code class="kbd">COPY</code></li>
+              <li>CMD/ENTRYPOINT — defines how the container starts</li>
+            </ul>
+            <p class="small mt-12">At runtime Docker mounts a thin writable layer on top of the image layers where
+              changes during container execution live.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="diagram">
+        <h2>3️⃣ Image Architecture (visual)</h2>
+        <div class="panel">
+          <pre>+----------------------------------------+
+| Container (Writable Layer)             |
++----------------------------------------+
+| Layer N: CMD / ENTRYPOINT              |
++----------------------------------------+
+| Layer N-1: COPY / ADD                  |
++----------------------------------------+
+| Layer N-2: RUN (Dependencies)          |
++----------------------------------------+
+| Layer 1: FROM (Base Image - OS)        |
++----------------------------------------+
+| Host OS Kernel                         |
++----------------------------------------+</pre>
+          <p class="small mt-12">All layers except the top writable layer are shared and cached. Deleting a container
+            removes only its writable layer; the underlying image stays intact.</p>
+        </div>
+      </section>
+
+      <section id="commands">
+        <h2>4️⃣ Common Commands for Managing Images</h2>
+
+        <div class="panel">
+          <div class="small"><strong>List all images</strong></div>
+          <div class="cmd-row" style="margin-top:8px">
+            <pre id="cmd-list">docker images</pre>
+            <button class="copy-btn" data-target="cmd-list">Copy</button>
+          </div>
+
+          <div class="table-wrap mt-12">
+            <table>
+              <thead>
+                <tr>
+                  <th>Column</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>REPOSITORY</td>
+                  <td>Image name or source (e.g., <code class="kbd">ubuntu</code>).</td>
+                </tr>
+                <tr>
+                  <td>TAG</td>
+                  <td>Version tag (e.g., <code class="kbd">latest</code>, <code class="kbd">1.0</code>).</td>
+                </tr>
+                <tr>
+                  <td>IMAGE ID</td>
+                  <td>Unique identifier for the image.</td>
+                </tr>
+                <tr>
+                  <td>CREATED</td>
+                  <td>When the image was built.</td>
+                </tr>
+                <tr>
+                  <td>SIZE</td>
+                  <td>Disk space used by the image.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid mt-12">
+          <div class="panel">
+            <div class="small"><strong>-q (quiet mode)</strong></div>
+            <div class="cmd-row" style="margin-top:8px">
+              <pre id="cmd-q">docker images -q</pre>
+              <button class="copy-btn" data-target="cmd-q">Copy</button>
+            </div>
+            <p class="small mt-8">Outputs only image IDs — useful for scripting (e.g., bulk removal).</p>
+          </div>
+
+          <div class="panel">
+            <div class="small"><strong>-f (filter)</strong></div>
+            <div class="cmd-row" style="margin-top:8px">
+              <pre id="cmd-dang">docker images -f "dangling=true"</pre>
+              <button class="copy-btn" data-target="cmd-dang">Copy</button>
+            </div>
+            <p class="small mt-8">Filter images by criteria (dangling, reference patterns, etc.).</p>
+            <div class="cmd-row" style="margin-top:8px">
+              <pre id="cmd-ref">docker images -f "reference=ubuntu*"</pre>
+              <button class="copy-btn" data-target="cmd-ref">Copy</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="small"><strong>Inspect an image</strong></div>
+            <div class="cmd-row" style="margin-top:8px">
+              <pre id="cmd-inspect">docker image inspect &lt;image-name-or-id&gt;</pre>
+              <button class="copy-btn" data-target="cmd-inspect">Copy</button>
+            </div>
+            <p class="small mt-8">Shows JSON metadata: layers, exposed ports, env, volumes, entrypoint, etc.</p>
+            <div class="cmd-row" style="margin-top:8px">
+              <pre id="cmd-inspect-ex">docker image inspect nginx:latest</pre>
+              <button class="copy-btn" data-target="cmd-inspect-ex">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="notes">
+        <h2>Notes & Tips</h2>
+        <div class="grid">
+          <div class="panel">
+            <p class="small"><strong>Layer caching:</strong> Docker caches layers — reorder your Dockerfile so that
+              frequently changing steps come later, and stable steps (apt-get, base deps) stay earlier to maximize cache
+              reuse.</p>
+          </div>
+          <div class="panel">
+            <p class="small"><strong>Size:</strong> Use smaller base images (slim/alpine) and multi-stage builds for
+              production images to reduce attack surface and improve startup time.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">
+        <div class="small">Docker — Images</div>
+        <div style="display:flex;gap:8px">
+          <a class="btn" href="../docker/docker-topic-card.html"> <- Back to topics</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Copy button behaviour
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = btn.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if (!el) return;
+        const text = el.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          const old = btn.innerText;
+          btn.innerText = 'Copied';
+          setTimeout(() => btn.innerText = old, 900);
+        } catch (err) {
+          // fallback: select the text for manual copy
+          const range = document.createRange();
+          range.selectNodeContents(el);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          alert('Copy failed — text selected. Press Ctrl/Cmd+C to copy.');
+        }
+      });
+    });
+
+    // Prevent horizontal scroll on tiny screens
+    document.documentElement.style.overflowX = 'hidden';
+  </script>
+</body>
+
+</html>
