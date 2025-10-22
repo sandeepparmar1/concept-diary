@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servers and AWS Notes</title>
+
+    <link rel="stylesheet" href="../../stylesheet/btn.css">
+    <link rel="stylesheet" href="../../stylesheet/aws-introduction.css">
+
+</head>
+
+<body>
+
+    <h1>Servers and AWS — Beginner to Professional</h1>
+
+    <h2>1. What is a Server?</h2>
+    <p>A <strong>server</strong> is a computer that runs 24×7 to provide services to users or applications.
+        Traditionally, servers were <strong>physical machines</strong> you had to buy or rent.</p>
+
+    <p>Managing a physical server means handling everything manually:</p>
+    <ul>
+        <li>Installing and configuring the <strong>operating system</strong> and applications</li>
+        <li>Setting up <strong>networking</strong> and <strong>security</strong></li>
+        <li>Monitoring performance, managing storage, backups, and scaling</li>
+    </ul>
+
+    <p>This can be <strong>time-consuming, error-prone, and complex</strong>, especially when dealing with security
+        vulnerabilities or large-scale applications.</p>
+
+    <h2>2. The Problem with Physical Servers</h2>
+    <p>For developers or DevOps engineers, managing physical servers involves heavy operational overhead. You need to:
+    </p>
+    <ul>
+        <li>Monitor hardware and software</li>
+        <li>Apply patches and updates</li>
+        <li>Handle network configurations and firewall rules</li>
+        <li>Plan for scaling and high availability</li>
+    </ul>
+
+    <p>Even small mistakes can cause downtime or security risks.</p>
+    <blockquote>Wouldn’t it be easier if all of this was <strong>provided as a service</strong>, ready to use, without
+        worrying about the underlying hardware? This is where <strong>Cloud Computing</strong> comes in.</blockquote>
+
+    <h2>3. Virtualization — The Foundation of Cloud</h2>
+    <p><strong>Virtualization</strong> is software that allows a single physical server to run <strong>multiple virtual
+            servers (VMs)</strong>. Each VM behaves like an independent server with its own operating system and
+        resources.</p>
+
+    <p>Example:</p>
+    <ul>
+        <li>Physical Server: 12 CPUs, 120 GB RAM, 1 TB disk</li>
+        <li>VM1: 2 CPUs, 4 GB RAM, 250 GB disk</li>
+        <li>VM2: 4 CPUs, 8 GB RAM, 500 GB disk</li>
+    </ul>
+
+    <p>This allows you to <strong>rent only the resources you need</strong> and scale them anytime.</p>
+
+    <h3>Types of Virtualization</h3>
+    <ul>
+        <li><strong>Bare-Metal (Type 1 Hypervisor)</strong>
+            <ul>
+                <li>Each VM has its own OS, running directly on hardware</li>
+                <li>Examples: VMware ESXi, KVM</li>
+            </ul>
+        </li>
+        <li><strong>Hosted (Type 2 Hypervisor)</strong>
+            <ul>
+                <li>VMs share the host OS</li>
+                <li>Examples: VirtualBox, VMware Workstation</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>4. Enter AWS — Cloud at Scale</h2>
+    <p><strong>Amazon Web Services (AWS)</strong> is a cloud platform that provides <strong>on-demand computing
+            resources</strong> over the internet.</p>
+
+    <p>Instead of managing physical servers, you can launch <strong>virtual servers (EC2 instances)</strong> with
+        configurable CPU, memory, storage, and networking, and pay only for what you use.</p>
+
+    <blockquote>Think of AWS as a giant pool of servers managed by Amazon. You don’t see the hardware, but you can use
+        it anytime, scale it up or down, and focus on building your application.</blockquote>
+
+    <h2>5. AWS Global Infrastructure</h2>
+    <p>AWS resources are hosted in <strong>Data Centers</strong>, which are physical buildings containing servers.</p>
+
+    <p>To provide <strong>reliability, scalability, and low-latency access</strong>, AWS organizes its infrastructure
+        hierarchically:</p>
+    <ul>
+        <li><strong>Regions</strong>: Geographical areas with multiple data centers (e.g., Mumbai, Hyderabad)</li>
+        <li><strong>Availability Zones (AZs)</strong>: Independent data centers within a region</li>
+        <li><strong>Edge Locations</strong>: Servers located close to users to speed up content delivery</li>
+    </ul>
+
+    <p>Within a data center, all servers are connected via <strong>high-speed networking</strong>, enabling
+        <strong>fault tolerance and redundancy</strong>.
+    </p>
+
+    <h2>6. Why Use AWS?</h2>
+    <p>AWS removes the operational overhead of managing physical servers:</p>
+    <ul>
+        <li>No need to install or patch OS manually</li>
+        <li>Automatic scaling and resource allocation</li>
+        <li>Built-in security and networking best practices</li>
+        <li>Pay only for the resources you actually use</li>
+    </ul>
+
+    <p>You can <strong>focus on developing applications</strong>, while AWS handles the underlying infrastructure.</p>
+
+    
+
+    <a class="btn" href="aws-topics.html" style="background: #4caf50;"> <- Back to Topics</a>
+
+</body>
+
+</html>
